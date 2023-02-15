@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Music Player</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel='stylesheet' href='style/style.css'>
+    <script src='main.js'></script>
+</head>
+<body>
+    <div class="main_div">
+        <div class="music_con">
+            <h2 id="title">Calm Down</h2>
+            <h3 id="artist">Rema</h3>
+            <div class="img_con">
+                <img src="images/song1.jpg">
+            </div>
+            <audio src="music/song1.mp3"></audio>
+
+            <div class="music_control">
+                <i class="fa-sharp fa-solid fa-backward" id="prev" title="Previous"></i>
+                <i class="fa-sharp main-button fa-solid fa-play" id="play" title="Play"></i>
+                <i class="fa-sharp fa-solid fa-forward" id="forw" title="Next"></i>
+            </div>
+        </div>
+    </div>
+    <script>
+        const img = document.querySelector("img");
+        const music = document.querySelector("audio");
+        const play = document.getElementById("play");
+        const artist = document.getElementById("artist");
+        const title = document.getElementById("title");
+        const prev = document.getElementById("prev");
+        const forw = document.getElementById("forw");
+
+        const songs = [{
+            name:"song1",
+            title:"Calm Down",
+            artist:"Rema",
+        },
+        {
+            name:"song2",
+            title:"What If I Told",
+            artist:"Ali Gatie",
+        },
+        {
+            name:"song3",
+            title:"Lavender Haze",
+            artist:"Taylor Swift",
+        },
+        {
+            name:"song4",
+            title:"Flowers",
+            artist:"Miley Cyrus",
+        },
+        ]
+
+        let isplaying = false;
+        //for play
+        const playmusic = () => {
+            isplaying = true;
+            music.play();
+            play.classList.replace("fa-play","fa-pause");
+            img.classList.add("anime");
+        };
+        //for pause
+        const pausemusic = () => {
+            isplaying = false;
+            music.pause();
+            play.classList.replace("fa-pause","fa-play");
+            img.classList.remove("anime");
+        };
+
+        play.addEventListener('click', () => {
+            if(isplaying)
+            {
+                pausemusic();
+
+            }else
+            {
+                playmusic();
+            }
+            //isplaying ? pausemusic() : playmusic();
+        });
+
+        //changing the song
+
+        const loadsong = (songs) => {
+            title.textContent = songs.title;
+            artist.textContent = songs.artist;
+            music.src = "music/"+songs.name+".mp3";
+            img.src = "images/"+songs.name+".jpg";
+        };
+        songindex=0;
+        
+
+        const nextsong = () => {
+            songindex = (songindex + 1) % songs.length;
+            loadsong(songs[songindex]);
+            playmusic();
+        };
+        const prevsong = () => {
+            songindex = (songindex - 1) % songs.length;
+            loadsong[songindex];
+            playmusic();
+        };
+
+        forw.addEventListener('click', nextsong);
+        prev.addEventListener('click', prevsong);
+
+
+    </script>
+</body>
+</html>
